@@ -1,0 +1,22 @@
+{
+  "name": "LASettingsLauncherMenu",
+  "version": "0.1.0",
+  "summary": "A short description of LASettingsLauncherMenu.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/lugearma/LASettingsLauncherMenu",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "lugearma": "lugearma@gmail.com"
+  },
+  "source": {
+    "git": "https://github.com/lugearma/LASettingsLauncherMenu.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "LASettingsLauncherMenu/Classes/**/*"
+}

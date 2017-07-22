@@ -1,0 +1,6 @@
+framework module LASettingsLauncherMenu {
+  umbrella header "LASettingsLauncherMenu-umbrella.h"
+
+  export *
+  module * { export * }
+}
