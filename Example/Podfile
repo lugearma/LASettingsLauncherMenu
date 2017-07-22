@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'LASettingsLauncherMenu_Example' do
+  pod 'LASettingsLauncherMenu', :path => '../'
+
+  target 'LASettingsLauncherMenu_Tests' do
+    inherit! :search_paths
+
+    pod 'FBSnapshotTestCase'
+  end
+end
