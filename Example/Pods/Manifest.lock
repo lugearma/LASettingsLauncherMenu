@@ -1,0 +1,23 @@
+PODS:
+  - FBSnapshotTestCase (2.1.4):
+    - FBSnapshotTestCase/SwiftSupport (= 2.1.4)
+  - FBSnapshotTestCase/Core (2.1.4)
+  - FBSnapshotTestCase/SwiftSupport (2.1.4):
+    - FBSnapshotTestCase/Core
+  - LASettingsLauncherMenu (0.1.0)
+
+DEPENDENCIES:
+  - FBSnapshotTestCase
+  - LASettingsLauncherMenu (from `../`)
+
+EXTERNAL SOURCES:
+  LASettingsLauncherMenu:
+    :path: ../
+
+SPEC CHECKSUMS:
+  FBSnapshotTestCase: 094f9f314decbabe373b87cc339bea235a63e07a
+  LASettingsLauncherMenu: 3096d2d31c9f0466f3e19174b4e5b4ee087166a7
+
+PODFILE CHECKSUM: 54066c75db534e22b3b2ecbe77cade8cc766c420
+
+COCOAPODS: 1.2.1
