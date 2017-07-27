@@ -9,6 +9,12 @@ import UIKit
 
 private let reuseIdentifier = "Cell"
 
+public protocol LASettingsLauncherMenuDelegate: class {
+  
+  func settingLauncherMenu(_ menu: LASettingsLauncherMenu, didSelectItemAt indexPath: IndexPath)
+  func didHideMenu()
+}
+
 public final class LASettingsLauncherMenu: NSObject {
 
   let blackView = UIView()
@@ -19,6 +25,13 @@ public final class LASettingsLauncherMenu: NSObject {
     collectioView.backgroundColor = .white
     return collectioView
   }()
+  
+  func animationsWhenDismiss() -> Void {
+    self.blackView.alpha = 0.0
+    self.collectionView.frame = CGRect(x: 0, y: self.window.frame.height, width: self.collectionView.frame.width, height: self.collectionView.frame.height)
+  }
+  
+  public weak var delegate: LASettingsLauncherMenuDelegate?
   
   var window: UIWindow {
     guard let window = UIApplication.shared.keyWindow else { fatalError() }
@@ -63,19 +76,13 @@ public final class LASettingsLauncherMenu: NSObject {
     }, completion: nil)
   }
   
-  public func handleDismiss() {
+  public func handleDismiss(completion: @escaping (Bool) -> Void) {
     
-    UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut,
-                   animations: {
-                    self.blackView.alpha = 0.0
-                    self.collectionView.frame = CGRect(x: 0, y: self.window.frame.height, width: self.collectionView.frame.width, height: self.collectionView.frame.height)
-    },
-                   completion: {_ in
-                    self.blackView.removeFromSuperview()
-                    self.collectionView.removeFromSuperview()
-    })
+    UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: animationsWhenDismiss, completion: completion)
   }
 }
+
+// MARK: - UICollectionViewDataSource
 
 extension LASettingsLauncherMenu: UICollectionViewDataSource {
   
@@ -95,6 +102,20 @@ extension LASettingsLauncherMenu: UICollectionViewDataSource {
     }
   }
 }
+
+// MARK: - UICollectionViewDelegate
+
+extension LASettingsLauncherMenu: UICollectionViewDelegate {
+  public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    handleDismiss() { _ in
+      self.blackView.removeFromSuperview()
+      self.collectionView.removeFromSuperview()
+      self.delegate?.settingLauncherMenu(self, didSelectItemAt: indexPath)
+    }
+  }
+}
+
+// MARK: - UICollectionViewDelegateFlowLayout
 
 extension LASettingsLauncherMenu: UICollectionViewDelegateFlowLayout {
   

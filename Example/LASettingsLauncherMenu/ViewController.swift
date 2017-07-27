@@ -15,6 +15,12 @@ final class ViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    
+    configureMenu()
+  }
+  
+  func configureMenu() {
+    settingsLauncher.delegate = self
   }
   
   @IBAction func showMenu() {
@@ -23,3 +29,13 @@ final class ViewController: UIViewController {
   }
 }
 
+extension ViewController: LASettingsLauncherMenuDelegate {
+  
+  func didHideMenu() {}
+  
+  func settingLauncherMenu(_ menu: LASettingsLauncherMenu, didSelectItemAt indexPath: IndexPath) {
+    let newVC = SecondViewController()
+    newVC.title = "Title"
+    navigationController?.pushViewController(newVC, animated: true)
+  }
+}
