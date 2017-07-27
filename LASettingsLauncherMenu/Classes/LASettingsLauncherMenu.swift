@@ -7,8 +7,6 @@
 
 import UIKit
 
-private let reuseIdentifier = "Cell"
-
 public protocol LASettingsLauncherMenuDataSource: class {
   
   func menuModel() -> [LASettingsLauncherMenuModel]
@@ -48,9 +46,14 @@ public final class LASettingsLauncherMenu: NSObject {
   private func loadCollectionView() {
     collectionView.dataSource = self
     collectionView.delegate = self
+    
     if #available(iOS 9.0, *) {
+      
       collectionView.register(LASettingsLauncherMenuCell.self, forCellWithReuseIdentifier: LASettingsLauncherMenuCell.identifier)
-    } else {
+    }
+    
+    else {
+      
       fatalError()
     }
   }
@@ -71,15 +74,17 @@ public final class LASettingsLauncherMenu: NSObject {
     let y = window.frame.height - height
     self.collectionView.frame = CGRect(x: 0, y: window.frame.height, width: window.frame.width, height: height)
     
-   UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
-      self.blackView.alpha = 0.5
-      self.collectionView.frame = CGRect(x: 0, y: y, width: self.collectionView.frame.width, height: self.collectionView.frame.height)
-    }, completion: nil)
+   UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: animationWhenShow, completion: nil)
   }
   
   public func handleDismiss(completion: @escaping (Bool) -> Void) {
     
     UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: animationsWhenDismiss, completion: completion)
+  }
+  
+  private func animationWhenShow() {
+    self.blackView.alpha = 0.5
+    self.collectionView.frame = CGRect(x: 0, y: y, width: self.collectionView.frame.width, height: self.collectionView.frame.height)
   }
   
   private func animationsWhenDismiss() -> Void {
@@ -120,7 +125,8 @@ extension LASettingsLauncherMenu: UICollectionViewDataSource {
     }
       
     else {
-      fatalError()
+      
+      fatalError("Unavailable for your iOS version. Use 9 or above")
     }
   }
 }
