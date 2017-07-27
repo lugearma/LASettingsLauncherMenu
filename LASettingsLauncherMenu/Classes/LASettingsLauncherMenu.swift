@@ -34,7 +34,11 @@ public final class LASettingsLauncherMenu: NSObject {
   private func loadCollectionView() {
     collectionView.dataSource = self
     collectionView.delegate = self
-    collectionView.register(LASettingsLauncherMenuCell.self, forCellWithReuseIdentifier: LASettingsLauncherMenuCell.identifier)
+    if #available(iOS 9.0, *) {
+      collectionView.register(LASettingsLauncherMenuCell.self, forCellWithReuseIdentifier: LASettingsLauncherMenuCell.identifier)
+    } else {
+      fatalError()
+    }
   }
   
   public func showSettings() {
@@ -76,15 +80,19 @@ public final class LASettingsLauncherMenu: NSObject {
 extension LASettingsLauncherMenu: UICollectionViewDataSource {
   
   public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return 3
+    return 20
   }
   
   public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LASettingsLauncherMenuCell.identifier, for: indexPath) as? LASettingsLauncherMenuCell else {
-      fatalError("Can't dequeue cell")
+  
+    if #available(iOS 9.0, *) {
+      guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LASettingsLauncherMenuCell.identifier, for: indexPath) as? LASettingsLauncherMenuCell else {
+        fatalError("Can't dequeue cell")
+      }
+      return cell
+    } else {
+      fatalError()
     }
-    
-    return cell
   }
 }
 
@@ -92,6 +100,10 @@ extension LASettingsLauncherMenu: UICollectionViewDelegateFlowLayout {
   
   public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     return CGSize(width: collectionView.frame.width, height: 50)
+  }
+  
+  public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    return 0
   }
 }
 

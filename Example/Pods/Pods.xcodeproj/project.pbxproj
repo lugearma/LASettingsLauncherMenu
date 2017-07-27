@@ -14,6 +14,7 @@
 		88DFB5289B9BD366AA7BFDFF4D234471 /* Pods-LASettingsLauncherMenu_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 6B35BACF9BAFC8E24B40E397B1A907B5 /* Pods-LASettingsLauncherMenu_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		92510EFB1F23A53500AEB63B /* LASettingsLauncherMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92510EF91F23A53500AEB63B /* LASettingsLauncherMenu.swift */; };
 		92510EFE1F23A81B00AEB63B /* LASettingsLauncherMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92510EFC1F23A81B00AEB63B /* LASettingsLauncherMenuCell.swift */; };
+		92CB50731F23B41300100DD1 /* UIVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92CB50721F23B41300100DD1 /* UIVIew.swift */; };
 		9A25A13468B12E232FAC54E016F3755E /* Pods-LASettingsLauncherMenu_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 69A78B48B04547CFA8DA45150FB8583D /* Pods-LASettingsLauncherMenu_Example-dummy.m */; };
 		A96545545CE0D83D14D8E213CB2AB258 /* Pods-LASettingsLauncherMenu_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 85BE61C8E1376A5C9ADCD7DDD2C01A51 /* Pods-LASettingsLauncherMenu_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C921084E5001C51B3E6A7098DD7C2190 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6E88A450A84E3957158B3B3459740AA /* Foundation.framework */; };
@@ -68,6 +69,7 @@
 		8F4EF0581EA47899906D6F62971903C4 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		92510EF91F23A53500AEB63B /* LASettingsLauncherMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LASettingsLauncherMenu.swift; sourceTree = "<group>"; };
 		92510EFC1F23A81B00AEB63B /* LASettingsLauncherMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LASettingsLauncherMenuCell.swift; sourceTree = "<group>"; };
+		92CB50721F23B41300100DD1 /* UIVIew.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIVIew.swift; path = Extensions/UIVIew.swift; sourceTree = "<group>"; };
 		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		9646FEDA59E27E64BC9B217763071E7E /* Pods-LASettingsLauncherMenu_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-LASettingsLauncherMenu_Tests.modulemap"; sourceTree = "<group>"; };
 		A27810809BAD71E4022600B21251449F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
@@ -232,6 +234,14 @@
 			name = Cell;
 			sourceTree = "<group>";
 		};
+		92CB50711F23B3F900100DD1 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				92CB50721F23B41300100DD1 /* UIVIew.swift */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
 		99E46DD4AB2256791F111C718CB0EEF8 /* SwiftSupport */ = {
 			isa = PBXGroup;
 			children = (
@@ -269,6 +279,7 @@
 		B53EBBE60255AFFFE6B1839C8EAFD67B /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				92CB50711F23B3F900100DD1 /* Extensions */,
 				92510EF91F23A53500AEB63B /* LASettingsLauncherMenu.swift */,
 				92CB50701F23B23100100DD1 /* Cell */,
 			);
@@ -437,6 +448,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				92CB50731F23B41300100DD1 /* UIVIew.swift in Sources */,
 				92510EFE1F23A81B00AEB63B /* LASettingsLauncherMenuCell.swift in Sources */,
 				43376EB4805BAAC93D1B6E80EB17013F /* LASettingsLauncherMenu-dummy.m in Sources */,
 				92510EFB1F23A53500AEB63B /* LASettingsLauncherMenu.swift in Sources */,
