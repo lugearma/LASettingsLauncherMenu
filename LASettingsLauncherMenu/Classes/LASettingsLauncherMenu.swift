@@ -21,6 +21,7 @@ public protocol LASettingsLauncherMenuDelegate: class {
 public final class LASettingsLauncherMenu: NSObject {
 
   fileprivate let blackView = UIView()
+  fileprivate let height: CGFloat = 200
   
   fileprivate let collectionView: UICollectionView = {
     let layout = UICollectionViewFlowLayout()
@@ -70,8 +71,8 @@ public final class LASettingsLauncherMenu: NSObject {
     window.addSubview(blackView)
     window.addSubview(collectionView)
     
-    let height: CGFloat = 200
-    let y = window.frame.height - height
+    
+    
     self.collectionView.frame = CGRect(x: 0, y: window.frame.height, width: window.frame.width, height: height)
     
    UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: animationWhenShow, completion: nil)
@@ -83,6 +84,8 @@ public final class LASettingsLauncherMenu: NSObject {
   }
   
   private func animationWhenShow() {
+    let y = window.frame.height - height
+    
     self.blackView.alpha = 0.5
     self.collectionView.frame = CGRect(x: 0, y: y, width: self.collectionView.frame.width, height: self.collectionView.frame.height)
   }
