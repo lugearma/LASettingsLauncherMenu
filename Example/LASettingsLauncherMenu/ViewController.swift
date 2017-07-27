@@ -21,6 +21,7 @@ final class ViewController: UIViewController {
   
   func configureMenu() {
     settingsLauncher.delegate = self
+    settingsLauncher.dataSource = self
   }
   
   @IBAction func showMenu() {
@@ -31,11 +32,21 @@ final class ViewController: UIViewController {
 
 extension ViewController: LASettingsLauncherMenuDelegate {
   
-  func didHideMenu() {}
+  func didHideMenu(_ menu: LASettingsLauncherMenu) {}
   
   func settingLauncherMenu(_ menu: LASettingsLauncherMenu, didSelectItemAt indexPath: IndexPath) {
     let newVC = SecondViewController()
     newVC.title = "Title"
     navigationController?.pushViewController(newVC, animated: true)
   }
+}
+
+extension ViewController: LASettingsLauncherMenuDataSource {
+  
+  func menuModel() -> [LASettingsLauncherMenuModel] {
+    
+    let settings = LASettingsLauncherMenuModel(title: "Settings", image: UIImage(named: "settings"))
+    return [settings]
+  }
+  
 }

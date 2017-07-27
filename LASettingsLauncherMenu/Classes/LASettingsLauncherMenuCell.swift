@@ -12,17 +12,16 @@ public final class LASettingsLauncherMenuCell: UICollectionViewCell {
   
   static let identifier = "LASettingsLauncherMenuCell"
   
-  let nameLabel: UILabel = {
+  let titleLabel: UILabel = {
     let label = UILabel()
-    label.text = "Settings"
     return label
   }()
   
   let iconImageView: UIImageView = {
     let imageView = UIImageView(frame: CGRect( x: 0, y: 0, width: 100, height: 100))
-    let image = UIImage(named: "settings")?.withRenderingMode(.alwaysTemplate)
+//    let image = UIImage(named: "settings")?.withRenderingMode(.alwaysTemplate)
     
-    imageView.image = image
+//    imageView.image = image
     imageView.contentMode = .scaleAspectFill
     imageView.tintColor = .black
     
@@ -43,7 +42,7 @@ public final class LASettingsLauncherMenuCell: UICollectionViewCell {
   public override var isHighlighted: Bool {
     didSet {
       backgroundColor = isHighlighted ? .darkGray : .white
-      nameLabel.textColor = isHighlighted ? .white : .black
+      titleLabel.textColor = isHighlighted ? .white : .black
       iconImageView.tintColor = isHighlighted ? .white : .black
     }
   }
@@ -57,10 +56,16 @@ public final class LASettingsLauncherMenuCell: UICollectionViewCell {
     fatalError("init(coder:) has not been implemented")
   }
   
-  func setupViews() {
+ func configuration(image: UIImage?, title: String) {
+    let image = image?.withRenderingMode(.alwaysTemplate)
+    iconImageView.image = image
+    titleLabel.text = title
+  }
+  
+  fileprivate func setupViews() {
     
     containerStackView.addArrangedSubview(iconImageView)
-    containerStackView.addArrangedSubview(nameLabel)
+    containerStackView.addArrangedSubview(titleLabel)
     
     addSubview(containerStackView)
     
