@@ -26,7 +26,7 @@ final class ViewController: UIViewController {
   
   @IBAction func showMenu() {
     
-    settingsLauncher.showSettings()
+    settingsLauncher.showSettingMenu()
   }
 }
 
@@ -43,10 +43,12 @@ extension ViewController: LASettingsLauncherMenuDelegate {
 
 extension ViewController: LASettingsLauncherMenuDataSource {
   
-  func menuModel() -> [LASettingsLauncherMenuModel] {
+  func dataForMenu() -> [LASettingsLauncherMenuModel] {
     
     let settings = LASettingsLauncherMenuModel(title: "Settings", image: UIImage(named: "settings"))
-    return [settings]
+    let settingsTwo = LASettingsLauncherMenuModel(title: "SettingsTwo", image: UIImage(named: "settings"))
+    let settingsThree = LASettingsLauncherMenuModel(title: "SettingsThree", image: UIImage(named: "settings"))
+    return [settings, settingsTwo, settingsThree]
   }
   
 }

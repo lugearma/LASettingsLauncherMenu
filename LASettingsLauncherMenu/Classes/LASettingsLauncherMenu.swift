@@ -9,7 +9,7 @@ import UIKit
 
 public protocol LASettingsLauncherMenuDataSource: class {
   
-  func menuModel() -> [LASettingsLauncherMenuModel]
+  func dataForMenu() -> [LASettingsLauncherMenuModel]
 }
 
 public protocol LASettingsLauncherMenuDelegate: class {
@@ -19,7 +19,7 @@ public protocol LASettingsLauncherMenuDelegate: class {
 }
 
 public final class LASettingsLauncherMenu: NSObject {
-
+  
   fileprivate let blackView = UIView()
   fileprivate let height: CGFloat = 200
   
@@ -52,14 +52,11 @@ public final class LASettingsLauncherMenu: NSObject {
       
       collectionView.register(LASettingsLauncherMenuCell.self, forCellWithReuseIdentifier: LASettingsLauncherMenuCell.identifier)
     }
-    
-    else {
       
-      fatalError()
-    }
+    else { fatalError("Unavailable for your iOS version. Use 9 or above") }
   }
   
-  public func showSettings() {
+  public func showSettingMenu() {
     
     blackView.frame = window.frame
     blackView.backgroundColor = .black
@@ -71,14 +68,12 @@ public final class LASettingsLauncherMenu: NSObject {
     window.addSubview(blackView)
     window.addSubview(collectionView)
     
-    
-    
     self.collectionView.frame = CGRect(x: 0, y: window.frame.height, width: window.frame.width, height: height)
     
-   UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: animationWhenShow, completion: nil)
+    UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: animationWhenShow, completion: nil)
   }
   
-  public func handleDismiss(completion: @escaping (Bool) -> Void) {
+  @objc fileprivate func handleDismiss(completion: @escaping (Bool) -> Void) {
     
     UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: animationsWhenDismiss, completion: completion)
   }
@@ -102,24 +97,20 @@ extension LASettingsLauncherMenu: UICollectionViewDataSource {
   
   public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     
-    guard let numberOfItems = dataSource?.menuModel().count else {
-      fatalError()
-    }
+    guard let numberOfItems = dataSource?.dataForMenu().count else { fatalError("Set a valid source") }
     
     return numberOfItems
   }
   
   public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-  
+    
     if #available(iOS 9.0, *) {
       
       guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LASettingsLauncherMenuCell.identifier, for: indexPath) as? LASettingsLauncherMenuCell else {
         fatalError("Can't dequeue cell")
       }
       
-      guard let data = dataSource?.menuModel() else {
-        fatalError("There's no data source")
-      }
+      guard let data = dataSource?.dataForMenu() else { fatalError("Set a valid source") }
       
       let dataForCell = data[indexPath.row]
       
@@ -127,10 +118,7 @@ extension LASettingsLauncherMenu: UICollectionViewDataSource {
       return cell
     }
       
-    else {
-      
-      fatalError("Unavailable for your iOS version. Use 9 or above")
-    }
+    else { fatalError("Unavailable for your iOS version. Use 9 or above") }
   }
 }
 
