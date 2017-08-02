@@ -7,20 +7,33 @@
 
 import UIKit
 
-private let reuseIdentifier = "Cell"
+public protocol LASettingsLauncherMenuDataSource: class {
+  
+  func dataForMenu() -> [LASettingsLauncherMenuModel]
+}
+
+public protocol LASettingsLauncherMenuDelegate: class {
+  
+  func didHideMenu(_ menu: LASettingsLauncherMenu)
+  func settingLauncherMenu(_ menu: LASettingsLauncherMenu, didSelectItemAt indexPath: IndexPath)
+}
 
 public final class LASettingsLauncherMenu: NSObject {
-
-  let blackView = UIView()
   
-  let collectionView: UICollectionView = {
+  fileprivate let blackView = UIView()
+  fileprivate let height: CGFloat = 200
+  
+  fileprivate let collectionView: UICollectionView = {
     let layout = UICollectionViewFlowLayout()
     let collectioView = UICollectionView(frame: .zero, collectionViewLayout: layout)
     collectioView.backgroundColor = .white
     return collectioView
   }()
   
-  var window: UIWindow {
+  public weak var dataSource: LASettingsLauncherMenuDataSource?
+  public weak var delegate: LASettingsLauncherMenuDelegate?
+  
+  fileprivate var window: UIWindow {
     guard let window = UIApplication.shared.keyWindow else { fatalError() }
     return window
   }
@@ -34,10 +47,16 @@ public final class LASettingsLauncherMenu: NSObject {
   private func loadCollectionView() {
     collectionView.dataSource = self
     collectionView.delegate = self
-    collectionView.register(LASettingsLauncherMenuCell.self, forCellWithReuseIdentifier: LASettingsLauncherMenuCell.identifier)
+    
+    if #available(iOS 9.0, *) {
+      
+      collectionView.register(LASettingsLauncherMenuCell.self, forCellWithReuseIdentifier: LASettingsLauncherMenuCell.identifier)
+    }
+      
+    else { fatalError("Unavailable for your iOS version. Use 9 or above") }
   }
   
-  public func showSettings() {
+  public func showSettingMenu() {
     
     blackView.frame = window.frame
     blackView.backgroundColor = .black
@@ -49,49 +68,86 @@ public final class LASettingsLauncherMenu: NSObject {
     window.addSubview(blackView)
     window.addSubview(collectionView)
     
-    let height: CGFloat = 200
-    let y = window.frame.height - height
     self.collectionView.frame = CGRect(x: 0, y: window.frame.height, width: window.frame.width, height: height)
     
-    UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
-      self.blackView.alpha = 0.5
-      self.collectionView.frame = CGRect(x: 0, y: y, width: self.collectionView.frame.width, height: self.collectionView.frame.height)
-    }, completion: nil)
+    UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: animationWhenShow, completion: nil)
   }
   
-  public func handleDismiss() {
+  @objc fileprivate func handleDismiss(completion: @escaping (Bool) -> Void) {
     
-    UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut,
-                   animations: {
-                    self.blackView.alpha = 0.0
-                    self.collectionView.frame = CGRect(x: 0, y: self.window.frame.height, width: self.collectionView.frame.width, height: self.collectionView.frame.height)
-    },
-                   completion: {_ in
-                    self.blackView.removeFromSuperview()
-                    self.collectionView.removeFromSuperview()
-    })
+    UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: animationsWhenDismiss, completion: completion)
+  }
+  
+  private func animationWhenShow() {
+    let y = window.frame.height - height
+    
+    self.blackView.alpha = 0.5
+    self.collectionView.frame = CGRect(x: 0, y: y, width: self.collectionView.frame.width, height: self.collectionView.frame.height)
+  }
+  
+  private func animationsWhenDismiss() -> Void {
+    self.blackView.alpha = 0.0
+    self.collectionView.frame = CGRect(x: 0, y: self.window.frame.height, width: self.collectionView.frame.width, height: self.collectionView.frame.height)
   }
 }
+
+// MARK: - UICollectionViewDataSource
 
 extension LASettingsLauncherMenu: UICollectionViewDataSource {
   
   public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return 3
+    
+    guard let numberOfItems = dataSource?.dataForMenu().count else { fatalError("Set a valid source") }
+    
+    return numberOfItems
   }
   
   public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LASettingsLauncherMenuCell.identifier, for: indexPath) as? LASettingsLauncherMenuCell else {
-      fatalError("Can't dequeue cell")
-    }
     
-    return cell
+    if #available(iOS 9.0, *) {
+      
+      guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LASettingsLauncherMenuCell.identifier, for: indexPath) as? LASettingsLauncherMenuCell else {
+        fatalError("Can't dequeue cell")
+      }
+      
+      guard let data = dataSource?.dataForMenu() else { fatalError("Set a valid source") }
+      
+      let dataForCell = data[indexPath.row]
+      
+      cell.configuration(image: dataForCell.image, title: dataForCell.title)
+      return cell
+    }
+      
+    else { fatalError("Unavailable for your iOS version. Use 9 or above") }
   }
 }
+
+// MARK: - UICollectionViewDelegate
+
+extension LASettingsLauncherMenu: UICollectionViewDelegate {
+  
+  public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    
+    handleDismiss() { _ in
+      self.blackView.removeFromSuperview()
+      self.collectionView.removeFromSuperview()
+      self.delegate?.settingLauncherMenu(self, didSelectItemAt: indexPath)
+    }
+  }
+}
+
+// MARK: - UICollectionViewDelegateFlowLayout
 
 extension LASettingsLauncherMenu: UICollectionViewDelegateFlowLayout {
   
   public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    
     return CGSize(width: collectionView.frame.width, height: 50)
+  }
+  
+  public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    
+    return 0
   }
 }
 
