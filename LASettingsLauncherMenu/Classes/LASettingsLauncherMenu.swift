@@ -47,7 +47,13 @@ public final class LASettingsLauncherMenu: NSObject {
   
   fileprivate var height: CGFloat {
     
-    return CGFloat(numberOfItemsInDataSource) * 50
+    let porcentageOfMaxHeight = Int(window.frame.height * 0.7)
+    let module = porcentageOfMaxHeight % 50
+    let maxHeight = CGFloat(porcentageOfMaxHeight - module)
+    
+    let heightBasedInNumberOfItems = CGFloat(numberOfItemsInDataSource) * 50
+    
+    return heightBasedInNumberOfItems < maxHeight ? heightBasedInNumberOfItems : maxHeight
   }
   
   public override init() {
@@ -79,8 +85,6 @@ public final class LASettingsLauncherMenu: NSObject {
     
     window.addSubview(blackView)
     window.addSubview(collectionView)
-    
-    
     
     self.collectionView.frame = CGRect(x: 0, y: window.frame.height, width: window.frame.width, height: height)
     

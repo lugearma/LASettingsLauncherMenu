@@ -54,17 +54,16 @@ extension ViewController: LASettingsLauncherMenuDataSource {
     return [
       LASettingsLauncherMenuModel(title: "Settings", image: UIImage(named: "settings")),
       LASettingsLauncherMenuModel(title: "Settings", image: UIImage(named: "settings")),
+      LASettingsLauncherMenuModel(title: "Settings", image: UIImage(named: "settings")),
+      LASettingsLauncherMenuModel(title: "Settings", image: UIImage(named: "settings")),
+      LASettingsLauncherMenuModel(title: "Settings", image: UIImage(named: "settings")),
+      LASettingsLauncherMenuModel(title: "Settings", image: UIImage(named: "settings")),
+      LASettingsLauncherMenuModel(title: "Settings", image: UIImage(named: "settings")),
+      LASettingsLauncherMenuModel(title: "Settings", image: UIImage(named: "settings")),
+      LASettingsLauncherMenuModel(title: "Settings", image: UIImage(named: "settings")),
+      LASettingsLauncherMenuModel(title: "Settings", image: UIImage(named: "settings")),
+      LASettingsLauncherMenuModel(title: "Settings", image: UIImage(named: "settings")),
       LASettingsLauncherMenuModel(title: "Settings", image: UIImage(named: "settings"))
-//      ,
-//      LASettingsLauncherMenuModel(title: "Settings", image: UIImage(named: "settings")),
-//      LASettingsLauncherMenuModel(title: "Settings", image: UIImage(named: "settings")),
-//      LASettingsLauncherMenuModel(title: "Settings", image: UIImage(named: "settings")),
-//      LASettingsLauncherMenuModel(title: "Settings", image: UIImage(named: "settings")),
-//      LASettingsLauncherMenuModel(title: "Settings", image: UIImage(named: "settings")),
-//      LASettingsLauncherMenuModel(title: "Settings", image: UIImage(named: "settings")),
-//      LASettingsLauncherMenuModel(title: "Settings", image: UIImage(named: "settings")),
-//      LASettingsLauncherMenuModel(title: "Settings", image: UIImage(named: "settings")),
-//      LASettingsLauncherMenuModel(title: "Settings", image: UIImage(named: "settings"))
     ]
   }
 }
