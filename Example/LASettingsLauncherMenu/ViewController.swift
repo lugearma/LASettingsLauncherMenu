@@ -32,7 +32,9 @@ final class ViewController: UIViewController {
 
 extension ViewController: LASettingsLauncherMenuDelegate {
   
-  func didHideMenu(_ menu: LASettingsLauncherMenu) {}
+  func didHideMenu(_ menu: LASettingsLauncherMenu) {
+    print(#function)
+  }
   
   func settingLauncherMenu(_ menu: LASettingsLauncherMenu, didSelectItemAt indexPath: IndexPath) {
     let newVC = SecondViewController()
@@ -50,5 +52,4 @@ extension ViewController: LASettingsLauncherMenuDataSource {
     let settingsThree = LASettingsLauncherMenuModel(title: "SettingsThree", image: UIImage(named: "settings"))
     return [settings, settingsTwo, settingsThree]
   }
-  
 }

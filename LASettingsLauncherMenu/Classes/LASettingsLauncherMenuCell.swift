@@ -19,9 +19,7 @@ public final class LASettingsLauncherMenuCell: UICollectionViewCell {
   
   let iconImageView: UIImageView = {
     let imageView = UIImageView(frame: CGRect( x: 0, y: 0, width: 100, height: 100))
-//    let image = UIImage(named: "settings")?.withRenderingMode(.alwaysTemplate)
-    
-//    imageView.image = image
+
     imageView.contentMode = .scaleAspectFill
     imageView.tintColor = .black
     
