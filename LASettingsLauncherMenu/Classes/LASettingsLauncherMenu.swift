@@ -73,9 +73,16 @@ public final class LASettingsLauncherMenu: NSObject {
     UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: animationWhenShow, completion: nil)
   }
   
-  @objc fileprivate func handleDismiss(completion: @escaping (Bool) -> Void) {
-    
-    UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: animationsWhenDismiss, completion: completion)
+  @objc fileprivate func handleDismissWithSelection(completion: @escaping (Bool) -> Void) {
+      UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: animationsWhenDismiss, completion: completion)
+  }
+  
+  @objc fileprivate func handleDismiss() {
+    UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: animationsWhenDismiss) { _ in
+      self.delegate?.didHideMenu(self)
+      self.blackView.removeFromSuperview()
+      self.collectionView.removeFromSuperview()
+    }
   }
   
   private func animationWhenShow() {
@@ -127,8 +134,9 @@ extension LASettingsLauncherMenu: UICollectionViewDataSource {
 extension LASettingsLauncherMenu: UICollectionViewDelegate {
   
   public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    
-    handleDismiss() { _ in
+  
+    handleDismissWithSelection() { _ in
+      
       self.blackView.removeFromSuperview()
       self.collectionView.removeFromSuperview()
       self.delegate?.settingLauncherMenu(self, didSelectItemAt: indexPath)
