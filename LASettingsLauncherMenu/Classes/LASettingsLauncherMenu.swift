@@ -21,7 +21,6 @@ public protocol LASettingsLauncherMenuDelegate: class {
 public final class LASettingsLauncherMenu: NSObject {
   
   fileprivate let blackView = UIView()
-  fileprivate let height: CGFloat = 200
   
   fileprivate let collectionView: UICollectionView = {
     let layout = UICollectionViewFlowLayout()
@@ -34,8 +33,27 @@ public final class LASettingsLauncherMenu: NSObject {
   public weak var delegate: LASettingsLauncherMenuDelegate?
   
   fileprivate var window: UIWindow {
+    
     guard let window = UIApplication.shared.keyWindow else { fatalError() }
     return window
+  }
+  
+  fileprivate var numberOfItemsInDataSource: Int {
+    
+    guard let data = dataSource?.dataForMenu() else { fatalError("Set valid data source") }
+    
+    return data.count
+  }
+  
+  fileprivate var height: CGFloat {
+    
+    let porcentageOfMaxHeight = Int(window.frame.height * 0.7)
+    let module = porcentageOfMaxHeight % 50
+    let maxHeight = CGFloat(porcentageOfMaxHeight - module)
+    
+    let heightBasedInNumberOfItems = CGFloat(numberOfItemsInDataSource) * 50
+    
+    return heightBasedInNumberOfItems < maxHeight ? heightBasedInNumberOfItems : maxHeight
   }
   
   public override init() {
@@ -104,7 +122,7 @@ extension LASettingsLauncherMenu: UICollectionViewDataSource {
   
   public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     
-    guard let numberOfItems = dataSource?.dataForMenu().count else { fatalError("Set a valid source") }
+    guard let numberOfItems = dataSource?.dataForMenu().count else { fatalError("Set a valid data source") }
     
     return numberOfItems
   }
@@ -117,7 +135,7 @@ extension LASettingsLauncherMenu: UICollectionViewDataSource {
         fatalError("Can't dequeue cell")
       }
       
-      guard let data = dataSource?.dataForMenu() else { fatalError("Set a valid source") }
+      guard let data = dataSource?.dataForMenu() else { fatalError("Set a valid data source") }
       
       let dataForCell = data[indexPath.row]
       
