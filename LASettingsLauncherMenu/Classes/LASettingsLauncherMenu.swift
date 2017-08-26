@@ -92,7 +92,7 @@ public final class LASettingsLauncherMenu: NSObject {
   }
   
   @objc fileprivate func handleDismissWithSelection(completion: @escaping (Bool) -> Void) {
-      UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: animationsWhenDismiss, completion: completion)
+    UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: animationsWhenDismiss, completion: completion)
   }
   
   @objc fileprivate func handleDismiss() {
@@ -130,7 +130,6 @@ extension LASettingsLauncherMenu: UICollectionViewDataSource {
   public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     
     if #available(iOS 9.0, *) {
-      
       guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LASettingsLauncherMenuCell.identifier, for: indexPath) as? LASettingsLauncherMenuCell else {
         fatalError("Can't dequeue cell")
       }
@@ -141,9 +140,10 @@ extension LASettingsLauncherMenu: UICollectionViewDataSource {
       
       cell.configuration(image: dataForCell.image, title: dataForCell.title)
       return cell
-    }
       
-    else { fatalError("Unavailable for your iOS version. Use 9 or above") }
+    } else {
+      fatalError("Can't dequeue cell")
+    }
   }
 }
 
@@ -152,7 +152,7 @@ extension LASettingsLauncherMenu: UICollectionViewDataSource {
 extension LASettingsLauncherMenu: UICollectionViewDelegate {
   
   public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-  
+    
     handleDismissWithSelection() { _ in
       
       self.blackView.removeFromSuperview()
