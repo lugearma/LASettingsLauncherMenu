@@ -31,6 +31,7 @@ public final class LASettingsLauncherMenu: NSObject {
   
   public weak var dataSource: LASettingsLauncherMenuDataSource?
   public weak var delegate: LASettingsLauncherMenuDelegate?
+  public var animationOptions: UIViewAnimationOptions = .curveEaseOut
   
   fileprivate var window: UIWindow {
     
@@ -71,7 +72,7 @@ public final class LASettingsLauncherMenu: NSObject {
       collectionView.register(LASettingsLauncherMenuCell.self, forCellWithReuseIdentifier: LASettingsLauncherMenuCell.identifier)
     }
       
-    else { fatalError("Unavailable for your iOS version. Use 9 or above") }
+    else { fatalError("Unavailable for current iOS version. Use 9 or above") }
   }
   
   public func showSettingMenu() {
@@ -88,15 +89,15 @@ public final class LASettingsLauncherMenu: NSObject {
     
     self.collectionView.frame = CGRect(x: 0, y: window.frame.height, width: window.frame.width, height: height)
     
-    UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: animationWhenShow, completion: nil)
+    UIView.animate(withDuration: 0.3, delay: 0, options: animationOptions, animations: animationWhenShow, completion: nil)
   }
   
   @objc fileprivate func handleDismissWithSelection(completion: @escaping (Bool) -> Void) {
-    UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: animationsWhenDismiss, completion: completion)
+    UIView.animate(withDuration: 0.3, delay: 0, options: animationOptions, animations: animationsWhenDismiss, completion: completion)
   }
   
   @objc fileprivate func handleDismiss() {
-    UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: animationsWhenDismiss) { _ in
+    UIView.animate(withDuration: 0.3, delay: 0, options: animationOptions, animations: animationsWhenDismiss) { _ in
       self.delegate?.didHideMenu(self)
       self.blackView.removeFromSuperview()
       self.collectionView.removeFromSuperview()

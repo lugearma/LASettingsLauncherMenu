@@ -22,6 +22,7 @@ final class ViewController: UIViewController {
   func configureMenu() {
     settingsLauncher.delegate = self
     settingsLauncher.dataSource = self
+    settingsLauncher.animationOptions = .curveEaseInOut
   }
   
   @IBAction func showMenu() {
@@ -29,6 +30,8 @@ final class ViewController: UIViewController {
     settingsLauncher.showSettingMenu()
   }
 }
+
+// MARK: - LASettingsLauncherMenuDelegate
 
 extension ViewController: LASettingsLauncherMenuDelegate {
   
@@ -46,6 +49,8 @@ extension ViewController: LASettingsLauncherMenuDelegate {
     navigationController?.pushViewController(newVC, animated: true)
   }
 }
+
+// MARK: - LASettingsLauncherMenuDataSource
 
 extension ViewController: LASettingsLauncherMenuDataSource {
   
